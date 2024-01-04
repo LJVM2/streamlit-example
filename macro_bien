@@ -32,3 +32,25 @@ Function CountWordsInRange(text As String, criteriaRange As Range) As Long
     ' Set the result
     CountWordsInRange = count
 End Function
+
+
+##########
+
+Function CountWords(cell As Range) As Integer
+    Dim words As Variant
+    
+    ' Split the cell text by space
+    words = Split(cell.Value, " ")
+    
+    ' Count the elements in the array, ignoring empty strings
+    CountWords = 0
+    Dim i As Integer
+    For i = LBound(words) To UBound(words)
+        If Trim(words(i)) <> "" Then
+            CountWords = CountWords + 1
+        End If
+    Next i
+End Function
+
+
+
