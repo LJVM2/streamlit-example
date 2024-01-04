@@ -1,0 +1,34 @@
+Function CountWordsInRange(text As String, criteriaRange As Range) As Long
+    Dim dict As Object
+    Dim word As Variant
+    Dim count As Long
+    Dim criteria As Variant
+    Dim i As Long
+    
+    ' Create a dictionary object
+    Set dict = CreateObject("Scripting.Dictionary")
+    
+    ' Split the text into an array of words
+    criteria = Split(text, " ")
+    
+    ' Count each word in the dictionary
+    For i = LBound(criteria) To UBound(criteria)
+        word = Trim(criteria(i))
+        If word <> "" Then
+            If Not dict.exists(word) Then
+                dict.Add word, 0
+            End If
+            dict(word) = dict(word) + 1
+        End If
+    Next i
+    
+    ' Sum the counts of the words that are found in the criteria range
+    For Each word In criteriaRange
+        If dict.exists(word.text) Then
+            count = count + dict(word.text)
+        End If
+    Next word
+    
+    ' Set the result
+    CountWordsInRange = count
+End Function
