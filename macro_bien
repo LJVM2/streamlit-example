@@ -53,4 +53,31 @@ Function CountWords(cell As Range) As Integer
 End Function
 
 
+##############
+Sub ColorCellsBasedOnDateAndDuration()
+    Dim ws As Worksheet
+    Set ws = ThisWorkbook.Sheets("Sheet1") 'Change "Sheet1" to the name of your sheet
 
+    Dim startDate As Range
+    Dim duration As Range
+    Dim endDate As Date
+    Dim cell As Range
+    Dim greenColor As Long
+    greenColor = RGB(0, 255, 0) 'This is the color green
+
+    For Each startDate In ws.Range("E10:E17") 'Adjust the range accordingly
+        Set duration = startDate.Offset(0, 1)
+        If IsDate(startDate.Value) And IsNumeric(duration.Value) Then
+            endDate = DateAdd("d", duration.Value, startDate.Value)
+            For Each cell In ws.Range("H" & startDate.Row & ":S" & startDate.Row)
+                If IsDate(cell.Value) Then
+                    If cell.Value >= startDate.Value And cell.Value <= endDate Then
+                        cell.Interior.Color = greenColor
+                    Else
+                        cell.Interior.ColorIndex = xlNone 'Clear any existing color
+                    End If
+                End If
+            Next cell
+        End If
+    Next startDate
+End Sub
